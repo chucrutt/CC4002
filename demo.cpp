@@ -2,20 +2,27 @@
 using namespace std;
 
 int main(){
-    // Tamaño del laberinto
-    int n;
-    cin >> n;
-    // Inicializar el laberinto
-    vector<vector<pair<int,bool>>> dp(n, vector<pair<int,bool>> (n, make_pair(0, false)));
-    // vector<vector<int>> dp(n, vector<int>(n, 0));
-    string s;
-    for (int i=0; i<n-1; i++) {
-        cin >> s;
-        for (int j=0; j<n-1; j++) {
-            if (s[j] == '*') {
-                dp[i][j] = make_pair(0, true);
-            }
+    // n: número de miradores
+    // x: máximo número de mts
+    // a: alturas
+    // [[altura, contador], ...]
+    int n, x, a;
+    cin >> n >> x;
+    vector<pair<int, int>> dp(n, make_pair(0, 0));
+    for (int i=0; i<n; i++) {
+        cin >> a;
+        dp[i].first = a;
+    }
+
+    // Caso base
+    dp[1].second = 1;
+
+    // DP
+    for (int i=1; i<n; i++) {
+        if (dp[i].first - dp[i-1].first <= x) {
+            dp[i].second += 1;
         }
     }
+
     return 0;
 }
